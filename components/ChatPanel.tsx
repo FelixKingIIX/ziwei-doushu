@@ -1,4 +1,5 @@
 'use client';
+import { requestAi } from '@/lib/ai-client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ZiweiChart } from '@/lib/ziwei/types';
@@ -41,11 +42,7 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/interpret', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chart, messages: [...messages, userMsg] }),
-      });
+      const res = await requestAi('/api/interpret', { chart, messages: [...messages, userMsg] });
 
       if (res.status === 404) throw new Error('api-missing');
       if (!res.ok) throw new Error('请求失败');
