@@ -9,7 +9,7 @@ const end = source.indexOf('  const cardStyle =', start);
 assert.ok(start >= 0 && end > start);
 const body = `export function makeRun(ctx) {
   const {chartA,chartB,formA,formB,generateChart,formToBirthInfo,setFormError,
-    setAnalyzing,setAnalysis,setAnalysisError,setChartA,setChartB,fetch,
+    setAnalyzing,setAnalysis,setAnalysisError,setChartA,setChartB,requestAi,
     setApiMissing,analysisRef} = ctx;
   const useCallback = (fn) => fn;
   ${source.slice(start, end)}
@@ -31,7 +31,7 @@ async function consume(chunks: Uint8Array[]) {
     setAnalysis: (value: string) => { text = value; },
     setAnalysisError: (value: boolean) => { failed = value; },
     setApiMissing: noop, analysisRef: { current: null },
-    fetch: async () => ({ status: 200, ok: true, body: new ReadableStream({
+    requestAi: async () => ({ status: 200, ok: true, body: new ReadableStream({
       start(controller) { for (const chunk of chunks) controller.enqueue(chunk); controller.close(); },
     }) }),
   })();
