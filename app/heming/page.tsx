@@ -60,7 +60,7 @@ export default function HemingPage() {
   const [formA, setFormA] = useState<BirthFormState | null>(null);
   const [formB, setFormB] = useState<BirthFormState | null>(null);
 
-  // ─── AI 合盘分析状态 ─────────────────────────────────────
+  // ─── 本地合盘分析状态 ─────────────────────────────────────
   const [analysis, setAnalysis] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [question, setQuestion] = useState('');
@@ -110,8 +110,7 @@ export default function HemingPage() {
       setChartB(cB);
 
       const res = await requestAi('/api/heming', { chartA: cA, chartB: cB, question: q ?? undefined });
-      if (res.status === 404) { setApiMissing(true); throw new Error('api-missing'); }
-      if (!res.ok || !res.body) throw new Error();
+            if (!res.ok || !res.body) throw new Error();
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -193,7 +192,7 @@ export default function HemingPage() {
             紫微合盘
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--tx-3)', lineHeight: 1.6 }}>
-            输入两个人的出生信息，AI 基于倪海厦体系分析双方命盘的缘分匹配度、感情走向与相处建议
+            输入两个人的出生信息，依据星曜及宫位固定规则对照双方命盘，仅供传统文化学习参考
           </p>
         </div>
 
@@ -241,7 +240,7 @@ export default function HemingPage() {
             <div style={{ textAlign: 'center', padding: '32px 0' }}>
               <div style={{ fontSize: '13px', color: 'var(--tx-3)', marginBottom: '24px', lineHeight: 1.7 }}>
                 填好双方出生信息后，点击下方按钮<br />
-                AI 将基于倪海厦体系深度分析两人缘分匹配度
+                本地规则将对照双方命宫和夫妻宫，不预测婚姻成败
               </div>
               <button
                 onClick={() => runAnalysis()}
@@ -282,7 +281,7 @@ export default function HemingPage() {
           {analysisError && (
             <div style={{ padding: '12px 16px', borderRadius: '10px', border: '1px solid var(--bdr)', background: 'var(--bg-card)', fontSize: '13px', color: 'var(--tx-2)', marginTop: '12px' }}>
               {apiMissing
-                ? '开源版不含合盘 AI 分析接口（/api/heming），需要你自己实现后才能用。两人的命盘可以分别到「排盘」页（/chart）查看。'
+                ? '合盘数据不足，请检查双方出生信息。'
                 : '分析暂时不可用，请重试。'}
             </div>
           )}
