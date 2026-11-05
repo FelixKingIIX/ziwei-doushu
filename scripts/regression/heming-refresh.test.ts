@@ -11,7 +11,7 @@ const end = source.indexOf('  const cardStyle =', start);
 assert.ok(start >= 0 && end > start);
 const body = `export function makeRun(ctx) {
   const {chartA,chartB,formA,formB,generateChart,formToBirthInfo,setFormError,
-    setAnalyzing,setAnalysis,setAnalysisError,setChartA,setChartB,fetch,
+    setAnalyzing,setAnalysis,setAnalysisError,setChartA,setChartB,requestAi,
     setApiMissing,analysisRef} = ctx;
   const useCallback = (fn) => fn;
   ${source.slice(start, end)}
@@ -35,8 +35,8 @@ const context = () => ({
   setChartB: (value: unknown) => { chartB = value; },
   setFormError: noop, setAnalyzing: noop, setAnalysis: noop, setAnalysisError: noop,
   setApiMissing: noop, analysisRef: { current: null },
-  fetch: async (_url: string, options: { body: string }) => {
-    requests.push(JSON.parse(options.body));
+  requestAi: async (_url: string, payload: { chartA: { birthInfo: BirthInfo }; chartB: { birthInfo: BirthInfo } }) => {
+    requests.push(payload);
     return { status: 200, ok: true, body: new ReadableStream({ start(controller) { controller.close(); } }) };
   },
 });
