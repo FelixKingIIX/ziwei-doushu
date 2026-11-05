@@ -1,4 +1,5 @@
 'use client';
+import { requestAi } from '@/lib/ai-client';
 import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import BirthForm, { type BirthFormState } from '@/components/BirthForm';
@@ -108,11 +109,7 @@ export default function HemingPage() {
       setChartA(cA);
       setChartB(cB);
 
-      const res = await fetch('/api/heming', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chartA: cA, chartB: cB, question: q ?? undefined }),
-      });
+      const res = await requestAi('/api/heming', { chartA: cA, chartB: cB, question: q ?? undefined });
       if (res.status === 404) { setApiMissing(true); throw new Error('api-missing'); }
       if (!res.ok || !res.body) throw new Error();
 
