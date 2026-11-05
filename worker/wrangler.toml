@@ -1,7 +1,0 @@
-name = "ziwei-deepseek"
-main = "src/index.js"
-compatibility_date = "2026-11-01"
-
-[vars]
-ALLOWED_ORIGIN = "https://felixkingiix.github.io"
-DEEPSEEK_MODEL = "deepseek-chat"
