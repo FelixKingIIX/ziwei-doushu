@@ -2,16 +2,19 @@
  * /library/search?q=xxx — 搜索结果页
  */
 
+'use client';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { searchClassics, getParagraphById } from '@/lib/classics';
 
-export const metadata = {
-  title: '搜索 · 古籍原典库',
-};
+export default function SearchPage() {
+  return <Suspense fallback={<p>正在加载搜索…</p>}><SearchResults /></Suspense>;
+}
 
-export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const sp = await searchParams;
-  const q = sp.q?.trim() || '';
+function SearchResults() {
+  const sp = useSearchParams();
+  const q = sp.get('q')?.trim() || '';
   const hits = q ? searchClassics(q, 50) : [];
 
   return (

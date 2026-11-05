@@ -33,7 +33,11 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const routes = getAllKnowledgeRoutes();
   // URL 用拼音 slug 替代中文，避开 Vercel/CDN 中文路由边界问题
-  return routes.map(r => ({ star: r.slug, topic: r.topic }));
+  // The open-source dataset can be empty. Export known paths as 404 pages
+  // until their knowledge entries are available.
+  return routes.length
+    ? routes.map(r => ({ star: r.slug, topic: r.topic }))
+    : ALL_STARS.flatMap(star => ALL_TOPICS.map(topic => ({ star: STAR_TO_SLUG[star], topic })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ star: string; topic: string }> }) {

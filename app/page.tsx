@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
@@ -1102,7 +1103,7 @@ export default function HomePage() {
           </motion.button>
           <div className="mt-4 flex flex-wrap gap-3 justify-center">
             <motion.a
-              href="/knowledge"
+              href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/knowledge/`}
               whileHover={{ scale: 1.02 }}
               className="text-xs tracking-[0.2em] inline-flex items-center gap-2 px-4 py-2 rounded-full"
               style={{
@@ -1114,7 +1115,7 @@ export default function HomePage() {
               ✦ 紫微斗数知识库 →
             </motion.a>
             <motion.a
-              href="/library"
+              href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/library/`}
               whileHover={{ scale: 1.02 }}
               className="text-xs tracking-[0.2em] inline-flex items-center gap-2 px-4 py-2 rounded-full"
               style={{
@@ -1180,9 +1181,9 @@ export default function HomePage() {
             不构成任何医疗、投资、法律或重大决策建议。
           </p>
           <p className="text-[10px] tracking-wider" style={{ color: c.footerText }}>
-            <a href="/terms" style={{ color: c.footerText, textDecoration: 'underline' }}>服务条款</a>
+            <Link href="/terms" style={{ color: c.footerText, textDecoration: 'underline' }}>服务条款</Link>
             {' · '}
-            <a href="/privacy" style={{ color: c.footerText, textDecoration: 'underline' }}>隐私政策</a>
+            <Link href="/privacy" style={{ color: c.footerText, textDecoration: 'underline' }}>隐私政策</Link>
           </p>
         </div>
       </footer>
