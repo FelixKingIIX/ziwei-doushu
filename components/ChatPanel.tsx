@@ -44,8 +44,7 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
     try {
       const res = await requestAi('/api/interpret', { chart, messages: [...messages, userMsg] });
 
-      if (res.status === 404) throw new Error('api-missing');
-      if (!res.ok) throw new Error('请求失败');
+            if (!res.ok) throw new Error('请求失败');
       if (!res.body) throw new Error('无响应流');
 
       const reader = res.body.getReader();
@@ -77,10 +76,9 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
         }
       }
     } catch (e) {
-      const missing = e instanceof Error && e.message === 'api-missing';
-      setMessages(prev => [...prev, {
+            setMessages(prev => [...prev, {
         role: 'assistant',
-        content: missing ? '开源版不含 AI 解读接口（/api/interpret），需要你自己实现后才能用，详见 README「快速开始」。排盘本身不需要任何 API Key。' : '解读失败，请检查API配置或稍后重试。',
+        content: '本地规则生成失败，请重新排盘后重试。',
       }]);
     } finally {
       setLoading(false);
@@ -91,8 +89,8 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
     <div className="flex flex-col h-full rounded-xl overflow-hidden card-glass">
       {/* 标题 */}
       <div className="px-4 py-3 flex-shrink-0" style={{ borderBottom: '1px solid var(--t-border)' }}>
-        <h3 className="text-xs font-medium tracking-widest" style={{ color: 'var(--t-gold)' }}>AI 命盘解读</h3>
-        <p className="text-[10px] mt-0.5" style={{ color: 'var(--t-faint)' }}>倪海厦正宗紫微斗数 · 智慧解析</p>
+        <h3 className="text-xs font-medium tracking-widest" style={{ color: 'var(--t-gold)' }}>本地规则解读</h3>
+        <p className="text-[10px] mt-0.5" style={{ color: 'var(--t-faint)' }}>紫微斗数 · 固定规则解析</p>
       </div>
 
       {/* 消息列表 */}
